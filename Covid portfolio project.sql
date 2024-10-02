@@ -16,7 +16,7 @@ ORDER BY 3, 4
 -- Select the Data that we are going to be using
 SELECT location, date, total_cases, new_cases, total_deaths, population
 FROM CovidProject..CovidDeaths
-ORDER BY 1, 2 --Location ve Date'e göre sýralatýyorum.
+ORDER BY 1, 2
 
 
 
@@ -93,8 +93,7 @@ WHERE continent IS NOT NULL
 GROUP BY continent
 ORDER BY total_dead_count DESC
 
----- Burada datada continent'i null olan ve location'unda continent isimleri ya da sýnýflandýrma isimleri yazýlý olan veriler var
----- Kýtalardaki toplam ölümlerin gerçek deðerini görmek için bu queryi kullan.
+---- Actual death numbers in continents
 --SELECT location, MAX(total_deaths) AS total_dead_count
 --FROM CovidProject..CovidDeaths
 --WHERE continent IS NULL 
@@ -104,7 +103,7 @@ ORDER BY total_dead_count DESC
 
 
 
--- GLOBAL NUMBERS // ATW is short for Around The World // Data is weekly
+-- GLOBAL NUMBERS // ATW is short for Around The World
 SELECT date, SUM(new_cases) AS new_cases_ATW, SUM(new_deaths) AS new_deaths_ATW, 
 CASE
 	WHEN SUM(new_cases) = 0 THEN 0
@@ -115,12 +114,12 @@ WHERE continent IS NOT NULL
 GROUP BY date
 ORDER BY 1, 2
 
----- I was confused for why there was %150 death on the first week of 2020. Germany's data...
+---- I was confused for why there was %150 death on the first week of 2020.
 --SELECT *
 --FROM CovidProject..CovidDeaths
 --WHERE date = '2020-01-05 00:00:00.000' and continent IS NOT NULL and (new_cases <> 0 OR new_deaths <> 0)
 --ORDER BY 3, 4
---Global total aþaðýdaki de
+--Global total aÃ¾aÃ°Ã½daki de
 SELECT SUM(new_cases) AS total_cases_ATW, SUM(new_deaths) AS total_deaths_ATW, 
 CASE
 	WHEN SUM(new_cases) = 0 THEN 0
@@ -145,8 +144,6 @@ ORDER BY 2, 3
 
 
 
--- vac.total_vaccinations kullanarak o güne kadar yapýlan toplam aþý sayýsýný görebiliriz.
--- bunun yerine bu deðeri yeni bir sütunda kendimiz hesaplatacaðýz.
 -- Using CTE to get VACCED_rate, since you cannot use a column you created in the same select statement (VACCED_total)
 WITH PopvsVac (Continent, Location, Date, Population, New_vaccinations, VACCED_total)
 AS
